@@ -1,4 +1,4 @@
-cdef extern from "libgocap.h":
+cdef extern from "interface.h":
     cdef struct Endpoint:
         unsigned int len;
         unsigned int ip32;
