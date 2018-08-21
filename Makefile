@@ -1,34 +1,14 @@
-.PHONY : cython go test
+.PHONY : test clean
 
-test: cython go
+test: pycap.so
 	go test -coverprofile=cover.out ./pycap/... -v
 	LD_LIBRARY_PATH=. python -m unittest discover -s test/
 
-cython:
+pycap/pycap.c: pycap/pycap.pyx pycap/cpycap.pxd
 	cython pycap/pycap.pyx
 
-go:
+pycap.so: pycap/pycap.c pycap/*.go
 	go build -buildmode=c-shared -o pycap.so ./pycap/...
 
 clean:
 	rm -rf pycap/pycap.c cover.out pycap.so pycap.h
-
-
-
-# test: testgo testpy
-#
-# buildcy: libgocap.so libgocap.h pycap/cpycap.pxd pycap/pycap.pyx
-# 	python setup.py build_ext -i
-#
-# libgocap.so libgocap.h: ./gocap/*.go
-# 	go build -buildmode=c-shared -o libgocap.so ./gocap/...
-#
-# testgo:
-# 	@go test -coverprofile=cover.out ./gocap/... -v
-#
-# testpy: buildcy
-# 	LD_LIBRARY_PATH=. python -m unittest discover -s test/
-#
-# clean:
-# 	rm -rf build/ cover.out *.so libgocap.h pycap/*.c dist/ gocap.egg-info/
-#
