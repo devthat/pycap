@@ -1,12 +1,9 @@
-# distutils: library_dirs = .
-# distutils: include_dirs = .
-
 import ipaddress
 
 from cpython.datetime cimport datetime, PyDateTime_CAPI
-from Cython.Shadow import boundscheck, wraparound
 from libc.stdlib cimport malloc, free
 cimport cpycap
+
 
 cdef class Message:
     cdef readonly datetime time
@@ -75,8 +72,9 @@ cdef class TcpConversation:
         return self._dialog
 
     cdef list _parse_dialog(self):
-        dialog = []
-        with boundscheck(False), wraparound(False):
+        # TODO: => target depends on cython
+        # with boundscheck(False), wraparound(False):
+            dialog = []
             for i in range(self._ptr.num):
                 m = self._ptr.messages[i]
                 when = datetime.fromtimestamp(m.ts)
@@ -84,7 +82,7 @@ cdef class TcpConversation:
                 direction = "receiving" if m.direction else "sending"
                 message = Message.__new__(Message, when, direction, message_text)
                 dialog.append(message)
-        return dialog
+            return dialog
 
 
 cdef class Pcap:

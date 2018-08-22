@@ -1,3 +1,9 @@
+cdef extern:
+    unsigned char pcap_load(void** p0, char* p1);
+    unsigned char pcap_parse(void* p0, TcpConversation* p1);
+    unsigned char pcap_close(void* p0);
+    char* pcap_error(void* p0);
+
 cdef extern from "interface.h":
     cdef struct Endpoint:
         unsigned int len;
@@ -21,8 +27,3 @@ cdef extern from "interface.h":
         unsigned int len;
         Message *messages;
         unsigned int num;
-
-    unsigned char pcap_load(void** p0, char* p1);
-    unsigned char pcap_parse(void* p0, TcpConversation* p1);
-    unsigned char pcap_close(void* p0);
-    char* pcap_error(void* p0);

@@ -11,4 +11,4 @@ pycap.so: pycap/pycap.c pycap/*.go
 	go build -buildmode=c-shared -o pycap.so ./pycap/...
 
 clean:
-	rm -rf pycap/pycap.c cover.out pycap.so pycap.h
+	rm -rf pycap.so pycap.h build

@@ -25,9 +25,3 @@ struct TcpConversation {
 	struct Message *messages;
 	unsigned int num;
 };
-
-typedef unsigned char GoUint8;
-extern GoUint8 pcap_load(void** p0, char* p1);
-extern GoUint8 pcap_close(void* p0);
-extern char* pcap_error(void* p0);
-extern GoUint8 pcap_parse(void* p0, struct TcpConversation* p1);
